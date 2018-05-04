@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<style>
+    .typewrite {
+        font-size: 35px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .typewrite {
+            font-size: 20px;
+        }
+    }
+</style>
+<script>
+    var TxtType = function (el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+    };
+
+    TxtType.prototype.tick = function () {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) {
+            delta /= 2;
+        }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+            delta = this.period;
+            this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+            this.isDeleting = false;
+            this.loopNum++;
+            delta = 500;
+        }
+
+        setTimeout(function () {
+            that.tick();
+        }, delta);
+    };
+
+    window.onload = function () {
+        var elements = document.getElementsByClassName('typewrite');
+        for (var i = 0; i < elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-type');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+                new TxtType(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+        document.body.appendChild(css);
+    };
+</script>
+
+<div style="width: 100%;position: fixed;z-index:-1;margin-top: 50px">
+    <img src="{% static 'images/bg.jpg' %}" style="min-height:100vh;min-width: 100vw">
+</div>
+<div class="container-fluid" style="margin-top: 50px;position: absolute;padding: 0px">
+    <div class="container-fluid" id="home_section" style="background-color: transparent;">
+
+        <h3 align="center" style="padding-top:40vh">
+            <a href="" class="typewrite" style="color: white" data-period="2000" data-type='[ "Hello,We are Dex!",
+                                                                                    "We are a team of Development Enthusiasts :)",
+                                                                                    "We Love delivering functional products.",
+                                                                                    "Experience Us." ]'>
+                <span class="wrap"></span>
+            </a>
+        </h3>
+    </div>
+    <div class="container-fluid bg-light" id="about_section"
+         style="margin-top: 70vh;padding-top: 100px;padding-bottom: 60px ">
+        <div class="container">
+            <h3 style="text-align: center;margin-bottom: 80px;">Why Us?</h3>
+            <blockquote class="blockquote text-center">
+                <p class="mb-0">Young, enthusiastic and ready to conquer.</p>
+                <footer class="blockquote-footer">Dex Developers</cite></footer>
+            </blockquote>
+            Behind Dex Softwares were a group of 6 enthusiastic developers in the sophomore year of their B.Tech ,who
+            loved to code as much as any professional. Gaining quite a lot of experience they understood that they had
+            the calibre to achieve much more. All 6 of them worked on many professional projects. Having the much needed
+            spirit and enthusiasm they knew they could achieve the extraordinary together. So, with this spirit in their
+            minds and the love for the code in their hearts,they founded the “Dex Softwares”. At Dex, we believe that
+            the real strength lies in unity.<br><br><br><br>
+            <div class="row">
+                <div class="col-sm-5">
+                    <img src="{% static 'images/about-img.jpg'%}" style="max-width: 100%">
+                </div>
+                <div class="col-sm-7">
+                    <strong>Satisfaction</strong><br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elite storium paralate
+                </div>
+            </div>
+            <div class="row" style="padding-top: 80px">
+                <div class="col-sm-7">
+                    <strong>Nominal Costs<br></strong>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elite storium paralate
+                </div>
+                <div class="col-sm-5">
+                    <img src="{% static 'images/cost.jpg'%}" style="max-width: 100%">
+                </div>
+            </div>
+            <div class="row" style="padding-top: 80px">
+                <div class="col-sm-5">
+                    <img src="{% static 'images/quality.jpg'%}" style="max-width: 100%">
+                </div>
+                <div class="col-sm-7">
+                    <strong>Focus on Quality</strong><br>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elite storium paralate
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="projects_section"
+         style="padding-top: 100px;background: rgba(255,255,255,0.5);padding-bottom: 60px; ">
+        <div class="container">
+            <h3 style="text-align: center;margin-bottom: 80px;color:white">Our Projects</h3>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                Collapsible Group Item #1
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                            single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                            beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
+                            lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
+                            probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                Collapsible Group Item #2
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                            single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                            beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
+                            lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
+                            probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                Collapsible Group Item #3
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                            single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                            beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
+                            lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
+                            probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                Collapsible Group Item #4
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                            single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                            beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
+                            lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
+                            probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingFive">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                Collapsible Group Item #5
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
+                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+                            single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft
+                            beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice
+                            lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you
+                            probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="readmore">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                <a href="/">Read More...</a>
+                            </button>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-light" id="team_section"
+         style="padding-top: 100px;padding-bottom: 60px ">
+        <div class="container">
+            <h3 style="text-align: center;margin-bottom: 80px;">The Team</h3>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/beerus.jpeg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Shubham Gupta</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/mkm.jpeg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Manish Kumar Mishra</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/nim.jpg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Nimish Bansal</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="padding-top: 80px">
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/hitesh.jpeg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Hitesh Poply</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/vivek.jpeg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Vivek Kumar</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        <img src="{% static 'images/rohan.jpeg' %}" class="rounded-circle" width="60%"
+                             style="margin-top:20px;margin-left: auto;margin-right: auto">
+                        <div class="card-body">
+                            <center><strong>Rohan Goyal</strong></center>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="contact_section"
+         style="padding-top: 100px;background: rgba(255,255,255,0.5);padding-bottom: 60px; ">
+        <div class="container">
+            <h3 style="text-align: center;margin-bottom: 80px;color:white">Contact Us</h3>
+
+            <div class="container-fluid" style="color:white;padding: 10px">
+                <form method="post" action="" style="padding: 50px">
+                    {% csrf_token %}
+                    {% for field in contact_form %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>{{ field.label_tag }}</h4>
+                            {% if field.help_text %}
+                            <sup>{{ field.help_text }}</sup>
+                            {% endif %}
+                            {{ field.errors }}
+                        </div>
+                        <div class="col-sm-12 pull-left">
+                            {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-lg btn-dark">Submit</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div data-toggle="modal" data-target="#exampleModalCenter"
+     style="cursor:pointer;position: fixed;right: 20px;bottom: 20px;text-align: center;height: 80px;width: 80px;border-radius: 50%;background-color: cornflowerblue;box-shadow: 2px 2px 2px 2px #212121;z-index:99999999">
+    <i class="fa fa-envelope" style="font-size:40px;margin-top:20px;color: white"></i>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Subscribe to our updates</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="">
+                <div class="modal-body">
+
+                    {% csrf_token %}
+                    {% for field in subscriber_form %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{ field.errors }}
+                        </div>
+                        <div class="col-sm-12 pull-left">
+                            {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function f() {
+        var image = document.getElementsByClassName('rounded-circle');
+        var w = image[0]['width']
+        $('.rounded-circle').css('height', w);
+    }
+
+    f()
+    $(window).resize(function () {
+        //console.log('resized')
+        f()
+    });
+</script>
+{% endblock %}
